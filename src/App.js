@@ -1,23 +1,25 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import SignIn from './components/SignIn/signIn';
+import SignUp from './components/SignUp/signUp';
 
 function App() {
+  const [isSigningIn, setIsSigningIn] = useState(true);
+
+  const switchToSignUp = () => {
+    setIsSigningIn(false);
+  };
+
+  const switchToSignIn = () => {
+    setIsSigningIn(true);
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {isSigningIn ? (
+        <SignIn switchToSignUp={switchToSignUp} />
+      ) : (
+        <SignUp switchToSignIn={switchToSignIn} />
+      )}
     </div>
   );
 }
