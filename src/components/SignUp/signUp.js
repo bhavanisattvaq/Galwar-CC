@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import './signUp.css'; // Import CSS file for SignUpForm
+import './signUp.css'; 
+import userService from '../../services/userService';
 
 const SignUp = ({ switchToSignIn }) => {
   const [username, setUsername] = useState('');
@@ -8,14 +9,26 @@ const SignUp = ({ switchToSignIn }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [termsChecked, setTermsChecked] = useState(false);
 
-  const handleSignUp = (event) => {
+  const handleSignUp = async (event) => {
     event.preventDefault();
-    // Perform sign-up logic here
-    console.log('Signing up with:', username, email, password, confirmPassword);
+    if (password !== confirmPassword) {
+      alert('Passwords do not match!');
+      return;
+    }
+
+    try {
+      const newUser = { username, email, password };
+      const response = await userService.createUser(newUser);
+      console.log('User created:', response.data);
+      // Handle success (e.g., redirect to sign-in)
+    } catch (error) {
+      console.error('Error creating user:', error);
+      // Handle error (e.g., display error message)
+    }
   };
 
   return (
-    <div className="form-container"> {/* Apply form-container class */}
+    <div className="form-container">
       <h2>Sign Up</h2>
       <form onSubmit={handleSignUp}>
         <div>
